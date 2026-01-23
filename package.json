@@ -8,15 +8,21 @@
     "sfdx-browserforce-plugin": "bin/run"
   },
   "dependencies": {
+    "@jsforce/jsforce-node": "3.10.4",
     "@mdapi-issues/listmetadata-standardvalueset": "3.1.0",
+    "@salesforce/core": "8.22.0",
     "@salesforce/sf-plugins-core": "12.2.6",
     "p-retry": "7.1.1",
     "puppeteer": "24.34.0"
   },
   "devDependencies": {
+    "@salesforce/dev-config": "4.3.1",
     "@salesforce/dev-scripts": "11.0.4",
+    "@types/mocha": "10.0.9",
+    "@types/node": "18.19.59",
     "oclif": "4.22.57",
-    "prettier": "3.7.4"
+    "prettier": "3.7.4",
+    "typescript": "5.6.3"
   },
   "files": [
     "/bin",
@@ -51,7 +57,7 @@
   },
   "repository": "amtrack/sfdx-browserforce-plugin",
   "scripts": {
-    "build": "rm -rf lib && tsc -p . && oclif manifest",
+    "build": "rm -rf lib && npx tsc -p . && npx oclif manifest",
     "develop": "bash scripts/develop.sh",
     "format": "npx prettier --write \"+(src|test)/**/*.+(ts|js|json)\"",
     "generate:plugin": "npx hygen plugin new",
