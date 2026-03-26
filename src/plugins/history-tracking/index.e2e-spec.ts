@@ -50,6 +50,15 @@ describe(HistoryTracking.name, function () {
         },
       ],
     },
+    {
+      objectApiName: 'Task',
+      fieldHistoryTracking: [
+        {
+          fieldApiName: 'Test__c',
+          enableHistoryTracking: true,
+        },
+      ],
+    },
   ];
 
   const disableHistoryTracking = [
@@ -78,6 +87,15 @@ describe(HistoryTracking.name, function () {
           fieldApiName: 'Owner',
           enableHistoryTracking: true,
         },
+        {
+          fieldApiName: 'Test__c',
+          enableHistoryTracking: false,
+        },
+      ],
+    },
+    {
+      objectApiName: 'Task',
+      fieldHistoryTracking: [
         {
           fieldApiName: 'Test__c',
           enableHistoryTracking: false,

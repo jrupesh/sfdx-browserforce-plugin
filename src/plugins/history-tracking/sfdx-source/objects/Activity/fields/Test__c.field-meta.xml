@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Test__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>A Test Field for History Tracking</description>
+    <inlineHelpText>Test Field for History Tracking</inlineHelpText>
+    <label>Test Field</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>
