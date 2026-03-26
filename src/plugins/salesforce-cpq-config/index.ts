@@ -9,7 +9,7 @@ const GENERATE_INTEGRATION_USER_PERMISSIONS_SELECTOR =
   'input[name="page:form:pb:j_id185:j_id197:setupIntegrationUserPermissions"]';
 const SAVE_SELECTOR = 'input[name="page:form:j_id2:j_id3:j_id11"]';
 const AUTHORIZE_NEW_CALCULATION_SERVICE_SELECTOR = 'span#page\\:form\\:pb\\:calculatorOptions\\:j_id201\\:j_id203 a';
-const ALLOW_SELECTOR = 'input[name="save"]';
+const ALLOW_SELECTOR = 'input[name="save"][id!="oadeny"]';
 
 export type Config = any;
 

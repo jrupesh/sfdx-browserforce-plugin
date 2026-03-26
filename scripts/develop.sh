@@ -38,8 +38,9 @@ _main() {
     --set-default \
     ${POSITIONAL_ARGS[@]}
   if [[ "${CPQ}" == "true" ]]; then
-    # Salesforce CPQ (SBQQ) 252.3.0.1
-    sf package install --package "04t6T000000t6QXQAY" --no-prompt --wait 30
+    # Salesforce CPQ (SBQQ) 260.2
+    # https://install.steelbrick.com/
+    sf package install --package "04tKh000001zrocIAA" --no-prompt --wait 30
   fi
 }
 
