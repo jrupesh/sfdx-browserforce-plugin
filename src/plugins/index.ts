@@ -9,6 +9,8 @@ import { HistoryTracking as historyTracking } from './history-tracking/index.js'
 import { HomePageLayouts as homePageLayouts } from './home-page-layouts/index.js';
 import { LightningExperienceSettings as lightningExperienceSettings } from './lightning-experience-settings/index.js';
 import { LinkedInSalesNavigatorSettings as linkedInSalesNavigatorSettings } from './linkedin-sales-navigator-settings/index.js';
+import { LoginAsUser as loginAsUser } from './login-as-user/index.js';
+import { LogoutLoginAsUser as logoutLoginAsUser } from './logout-login-as-user/index.js';
 import { OmniChannelSettings as omniChannelSettings } from './omni-channel-settings/index.js';
 import { OpportunitySplits as opportunitySplits } from './opportunity-splits/index.js';
 import { PermissionSets as permissionSets } from './permission-sets/index.js';
@@ -16,6 +18,7 @@ import { Picklists as picklists } from './picklists/index.js';
 import { RecordTypes as recordTypes } from './record-types/index.js';
 import { RelateContactToMultipleAccounts as relateContactToMultipleAccounts } from './relate-contact-to-multiple-accounts/index.js';
 import { ReportsAndDashboards as reportsAndDashboards } from './reports-and-dashboards/index.js';
+import { ScheduledBatches as scheduledBatches } from './scheduled-batches/index.js';
 import { SalesforceCpqConfig as salesforceCpqConfig } from './salesforce-cpq-config/index.js';
 import { SalesforceToSalesforce as salesforceToSalesforce } from './salesforce-to-salesforce/index.js';
 import { Security as security } from './security/index.js';
@@ -35,6 +38,8 @@ export {
   homePageLayouts,
   lightningExperienceSettings,
   linkedInSalesNavigatorSettings,
+  loginAsUser,
+  logoutLoginAsUser,
   omniChannelSettings,
   opportunitySplits,
   permissionSets,
@@ -42,6 +47,7 @@ export {
   recordTypes,
   relateContactToMultipleAccounts,
   reportsAndDashboards,
+  scheduledBatches,
   salesforceCpqConfig,
   salesforceToSalesforce,
   security,

@@ -1,8 +1,8 @@
 {
-  "name": "sfdx-browserforce-plugin",
-  "version": "0.0.0-development",
+  "name": "sf-browserforce",
+  "version": "0.0.1",
   "description": "sfdx plugin for browser automation",
-  "author": "Matthias Rolke <mr.amtrack@gmail.com>",
+  "author": "Rupesh J <j.rupesh@gmail.com>",
   "type": "module",
   "bin": {
     "sfdx-browserforce-plugin": "bin/run"

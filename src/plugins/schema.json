@@ -72,6 +72,15 @@
         },
         "slack": {
           "$ref": "./slack/schema.json"
+        },
+        "loginAsUser": {
+          "$ref": "./login-as-user/schema.json"
+        },
+        "logoutLoginAsUser": {
+          "$ref": "./logout-login-as-user/schema.json"
+        },
+        "scheduledBatches": {
+          "$ref": "./scheduled-batches/schema.json"
         }
       }
     }
