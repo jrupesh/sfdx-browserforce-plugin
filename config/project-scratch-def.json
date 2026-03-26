@@ -1,6 +1,6 @@
 {
   "orgName": "Browserforce",
-  "edition": "Developer",
+  "edition": "developer",
   "language": "en_US",
   "features": ["CPQ", "HighVelocitySales", "PersonAccounts", "ServiceCloud"],
   "settings": {
