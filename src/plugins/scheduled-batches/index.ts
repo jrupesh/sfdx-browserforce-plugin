@@ -1,84 +1,93 @@
-import type { SalesforceUrlPath } from '../../browserforce.js';
+import { type SalesforceUrlPath} from '../../browserforce.js';
 import { BrowserforcePlugin } from '../../plugin.js';
+
 import { ScheduledBatchesPage } from './page.js';
 
-const PAGE_PATH: SalesforceUrlPath = '/lightning/n/th_dev__BatchJobSchedulerConfiguration';
+const SCHEDULED_CHECKBOX_SELECTOR = 'input[type="checkbox"][data-record-id="{ID}"]';
+const BASE_PATH: SalesforceUrlPath = `/lightning/n/{NAMESPACE}BatchJobSchedulerConfiguration`;
+const SCHEDULE_OBJECT_API = '{NAMESPACE}BatchJobSchedule__c';
 
 export type Config = {
-  jobNames?: string[];
+  jobScheduleNames?: string[];
+  allJobScheduleNames?: boolean;
+  namespace?: string;
 };
 
 export class ScheduledBatches extends BrowserforcePlugin {
   public async retrieve(definition?: Config): Promise<Config | undefined> {
-    if (!definition?.jobNames || definition.jobNames.length === 0) {
+    if (!definition?.namespace) {
       return undefined;
     }
-
-    await using page = await this.browserforce.openPage(PAGE_PATH);
-    const frameOrPage = await this.browserforce.waitForSelectorInFrameOrPage(
-      page,
-      ScheduledBatchesPage.getTableSelector(),
-    );
-
-    const scheduled: string[] = [];
-
-    for (const jobName of definition.jobNames) {
-      try {
-        const row = frameOrPage
-          .locator('tbody tr')
-          .filter({ has: frameOrPage.getByRole('link', { name: jobName }) });
-        const rowCount = await row.count();
-        if (rowCount > 0) {
-          const checkbox = row.locator('td:last-child input[type="checkbox"]').first();
-          const isChecked = await checkbox.isChecked();
-          if (isChecked) {
-            scheduled.push(jobName);
-          }
-        }
-      } catch {
-        // Job not found, skip
-      }
+    if (!definition.allJobScheduleNames && (!definition.jobScheduleNames || definition.jobScheduleNames.length === 0)) {
+      throw new Error('jobScheduleNames or allJobScheduleNames is required');
     }
 
-    return { jobNames: scheduled };
-  }
-
-  public async apply(config: Config): Promise<void> {
-    await using page = await this.browserforce.openPage(PAGE_PATH);
+    await using page = await this.browserforce.openPage(BASE_PATH.replace('{NAMESPACE}', definition.namespace) as SalesforceUrlPath);
     const frameOrPage = await this.browserforce.waitForSelectorInFrameOrPage(
       page,
       ScheduledBatchesPage.getTableSelector(),
     );
 
     const scheduledBatchesPage = new ScheduledBatchesPage(frameOrPage);
-
-    if (config?.jobNames && config.jobNames.length > 0) {
-      await scheduledBatchesPage.checkScheduledForJobs(config.jobNames);
+    let jobScheduleNames: { name: string; id: string }[] = [];
+    if (definition.allJobScheduleNames) {
+      jobScheduleNames = await scheduledBatchesPage.resolveAllJobScheduleNames(this.browserforce, SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition.namespace));
     } else {
-      await scheduledBatchesPage.checkAllScheduled();
+      jobScheduleNames = await scheduledBatchesPage.resolveJobScheduleNames(this.browserforce, definition.jobScheduleNames, SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition.namespace));
+    }
+
+    const scheduled: string[] = [];
+
+    for (const jobSchedule of jobScheduleNames) {
+      try {
+        const checkbox = frameOrPage.locator(SCHEDULED_CHECKBOX_SELECTOR.replace('{ID}', jobSchedule.id));
+        const isChecked = await checkbox.isChecked();
+        if (isChecked) {
+          scheduled.push(jobSchedule.name);
+        }
+      } catch (e) {
+        if (e instanceof Error && e.message.includes('Timeout')) {
+          throw new Error(`Job schedule not found: ${jobSchedule.name}`);
+        }
+        throw e;
+      }
+    }
+
+    return { jobScheduleNames: scheduled };
+  }
+
+  public async apply(config: Config): Promise<void> {
+    if (!config.namespace) {
+      throw new Error('namespace is required');
+    }
+    
+    if (!config.allJobScheduleNames && (!config.jobScheduleNames || config.jobScheduleNames.length === 0)) {
+      throw new Error('jobScheduleNames is required when allJobScheduleNames is false');
+    }
+
+    await using page = await this.browserforce.openPage(BASE_PATH.replace('{NAMESPACE}', config.namespace) as SalesforceUrlPath);
+    const frameOrPage = await this.browserforce.waitForSelectorInFrameOrPage(
+      page,
+      ScheduledBatchesPage.getTableSelector(),
+    );
+    const scheduledBatchesPage = new ScheduledBatchesPage(frameOrPage);
+
+    let jobScheduleNames: { name: string; id: string }[] = [];
+    if (config.allJobScheduleNames) {
+      jobScheduleNames = await scheduledBatchesPage.resolveAllJobScheduleNames(this.browserforce, SCHEDULE_OBJECT_API.replace('{NAMESPACE}', config.namespace));
+    } else {
+      jobScheduleNames = await scheduledBatchesPage.resolveJobScheduleNames(this.browserforce, config.jobScheduleNames, SCHEDULE_OBJECT_API.replace('{NAMESPACE}', config.namespace));
+    }
+
+    for (const jobSchedule of jobScheduleNames) {
+      const checkbox = frameOrPage.locator(SCHEDULED_CHECKBOX_SELECTOR.replace('{ID}', jobSchedule.id));
+
+      const isChecked = await checkbox.isChecked();
+      if (!isChecked) {
+        await checkbox.click();
+      }
     }
 
     await scheduledBatchesPage.clickApplyChanges();
-
-    // Wait for error message to appear (from div.message.errorM3 structure) or timeout on success
-    const errorSelector =
-      'div.message.errorM3, div.errorMsg, div.error, .errorMessage, #errorTitle, #error, #errorDesc, #validationError';
-    const errorLocator = frameOrPage.locator(errorSelector);
-    try {
-      await errorLocator.first().waitFor({ state: 'visible', timeout: 10000 });
-      const errorText = (await errorLocator.first().innerText()).trim();
-      if (errorText) {
-        throw new Error(`Apply changes failed: ${errorText}`);
-      }
-    } catch (e) {
-      if (e instanceof Error && e.message.startsWith('Apply changes failed:')) {
-        throw e;
-      }
-      // Timeout = no error appeared within 10s, success
-      if (e instanceof Error && (e.message.includes('Timeout') || e.message.includes('exceeded'))) {
-        return;
-      }
-      throw e;
-    }
   }
 }

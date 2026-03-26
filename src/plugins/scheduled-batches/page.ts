@@ -1,57 +1,46 @@
-import type { Page } from 'playwright';
-import type { FrameLocator } from 'playwright';
+import { Browserforce, waitForPageErrors } from '../../browserforce.js';
+import { type FrameLocator, type Page } from 'playwright';
 
 const TABLE_SELECTOR = 'table.list, table.slds-vf-data-table';
 const APPLY_BUTTON_SELECTOR = 'input[type="submit"][value="Apply Changes"].btn';
 
 export class ScheduledBatchesPage {
-  private frameOrPage: Page | FrameLocator;
+  private page: Page | FrameLocator;
 
-  constructor(frameOrPage: Page | FrameLocator) {
-    this.frameOrPage = frameOrPage;
-  }
-
-  /**
-   * Check the Scheduled checkbox for the given job name(s)
-   * @param jobNames - Job names to schedule (matches Job Name column link text)
-   */
-  public async checkScheduledForJobs(jobNames: string[]): Promise<void> {
-    for (const jobName of jobNames) {
-      const row = this.frameOrPage
-        .locator('tbody tr')
-        .filter({ has: this.frameOrPage.getByRole('link', { name: jobName }) });
-      await row.first().waitFor({ timeout: 10000 });
-
-      const checkbox = row.locator('td:last-child input[type="checkbox"]').first();
-      const isChecked = await checkbox.isChecked();
-      if (!isChecked) {
-        await checkbox.click();
-      }
-    }
-  }
-
-  /**
-   * Check all Scheduled checkboxes in the table
-   */
-  public async checkAllScheduled(): Promise<void> {
-    const checkboxes = this.frameOrPage.locator('tbody tr td:last-child input[type="checkbox"]');
-    const count = await checkboxes.count();
-    for (let i = 0; i < count; i++) {
-      const checkbox = checkboxes.nth(i);
-      const isChecked = await checkbox.isChecked();
-      if (!isChecked) {
-        await checkbox.click();
-      }
-    }
+  constructor(page: Page | FrameLocator) {
+    this.page = page;
   }
 
   /**
    * Click the Apply Changes button
    */
   public async clickApplyChanges(): Promise<void> {
-    const button = this.frameOrPage.locator(APPLY_BUTTON_SELECTOR).first();
-    await button.waitFor({ timeout: 10000 });
-    await button.click();
+    // Save the settings
+    await this.page
+      .locator(APPLY_BUTTON_SELECTOR)
+      .filter({ visible: true }) // there are three save buttons [not visible, top row, bottom row]
+      .first()
+      .click();
+
+    await Promise.race([
+      this.page.getByText('Success:Batch Job Schedules updated successfully').waitFor(),
+      waitForPageErrors(this.page),
+    ]);
+  }
+
+  public async resolveAllJobScheduleNames(browserforce: Browserforce, scheduleObjectApi: string): Promise<{ name: string; id: string }[]> {
+    const query = `SELECT Id, Name FROM ${scheduleObjectApi}`;
+    const result = await browserforce.connection.query<{ Id: string; Name: string }>(query);
+
+    return result.records.map((record) => ({ id: record.Id, name: record.Name }));
+  } 
+
+  public async resolveJobScheduleNames(browserforce: Browserforce, jobScheduleNames: string[], scheduleObjectApi: string): Promise<{ name: string; id: string }[]> {
+    const escapedJobScheduleNames = jobScheduleNames.map((jobScheduleName) => jobScheduleName.replace(/'/g, "''"));
+    const query = `SELECT Id, Name FROM ${scheduleObjectApi} WHERE Name IN ('${escapedJobScheduleNames.join("', '")}')`;
+    const result = await browserforce.connection.query<{ Id: string; Name: string }>(query);
+
+    return result.records.map((record) => ({ id: record.Id, name: record.Name }));
   }
 
   public static getTableSelector(): string {

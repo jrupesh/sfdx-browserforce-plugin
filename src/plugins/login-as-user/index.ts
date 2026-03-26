@@ -1,7 +1,5 @@
-import type { SalesforceUrlPath } from '../../browserforce.js';
+import { waitForPageErrors, type SalesforceUrlPath } from '../../browserforce.js';
 import { BrowserforcePlugin } from '../../plugin.js';
-
-const LOGIN_AS_TARGET_URL = '/home/home.jsp';
 
 type UserRecord = {
   Id: string;
@@ -44,10 +42,11 @@ export class LoginAsUser extends BrowserforcePlugin {
     const orgId = this.browserforce.connection.getAuthInfoFields().orgId;
     const userId = await this.resolveUserId(config.userAliasOrName);
 
-    const urlPath: SalesforceUrlPath =
-      `/servlet/servlet.su?oid=${orgId}&suorgadminid=${userId}&targetURL=${encodeURIComponent(LOGIN_AS_TARGET_URL)}`;
-
+    const urlPath: SalesforceUrlPath = `/servlet/servlet.su?oid=${orgId}&suorgadminid=${userId}&targetURL=${encodeURIComponent(`/lightning/r/${userId}/view`)}`;
     await using page = await this.browserforce.openPage(urlPath);
-    await page.waitForLoadState('load');
+    await Promise.race([
+      page.waitForURL((url) => url.pathname === `/lightning/r/${userId}/view`),
+      waitForPageErrors(page),
+    ]);
   }
 }
