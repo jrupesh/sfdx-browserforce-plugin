@@ -22,8 +22,5 @@
       "type": "string"
     }
   },
-  "oneOf": [
-    { "required": ["jobScheduleNames", "namespace"] },
-    { "required": ["allJobScheduleNames", "namespace"] }
-  ]
+  "oneOf": [{ "required": ["jobScheduleNames", "namespace"] }, { "required": ["allJobScheduleNames", "namespace"] }]
 }

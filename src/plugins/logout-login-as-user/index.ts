@@ -1,7 +1,8 @@
 import type { SalesforceUrlPath } from '../../browserforce.js';
 import { BrowserforcePlugin } from '../../plugin.js';
 
-const LOGOUT_URL: SalesforceUrlPath = `/secur/logout.jsp?retURL=${encodeURIComponent('/setup/forcecomHomepage.apexp')}` as SalesforceUrlPath;
+const LOGOUT_URL: SalesforceUrlPath =
+  `/secur/logout.jsp?retURL=${encodeURIComponent('/setup/forcecomHomepage.apexp')}` as SalesforceUrlPath;
 
 export type Config = Record<string, never>;
 

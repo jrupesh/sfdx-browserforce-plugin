@@ -28,14 +28,21 @@ export class ScheduledBatchesPage {
     ]);
   }
 
-  public async resolveAllJobScheduleNames(browserforce: Browserforce, scheduleObjectApi: string): Promise<{ name: string; id: string }[]> {
+  public async resolveAllJobScheduleNames(
+    browserforce: Browserforce,
+    scheduleObjectApi: string,
+  ): Promise<{ name: string; id: string }[]> {
     const query = `SELECT Id, Name FROM ${scheduleObjectApi}`;
     const result = await browserforce.connection.query<{ Id: string; Name: string }>(query);
 
     return result.records.map((record) => ({ id: record.Id, name: record.Name }));
-  } 
+  }
 
-  public async resolveJobScheduleNames(browserforce: Browserforce, jobScheduleNames: string[], scheduleObjectApi: string): Promise<{ name: string; id: string }[]> {
+  public async resolveJobScheduleNames(
+    browserforce: Browserforce,
+    jobScheduleNames: string[],
+    scheduleObjectApi: string,
+  ): Promise<{ name: string; id: string }[]> {
     const escapedJobScheduleNames = jobScheduleNames.map((jobScheduleName) => jobScheduleName.replace(/'/g, "''"));
     const query = `SELECT Id, Name FROM ${scheduleObjectApi} WHERE Name IN ('${escapedJobScheduleNames.join("', '")}')`;
     const result = await browserforce.connection.query<{ Id: string; Name: string }>(query);

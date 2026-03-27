@@ -220,9 +220,7 @@ export class HistoryTracking extends BrowserforcePlugin {
 
       // If this is a Task field, we must do special handling for this
       if (tableEnumOrId === 'Task' && fieldHistoryTrackingConfig.fieldApiName.includes('__c')) {
-        activityFieldApiNames.push(
-          this.parseNamespacedFieldApiName(fieldHistoryTrackingConfig.fieldApiName, '__c')
-        );
+        activityFieldApiNames.push(this.parseNamespacedFieldApiName(fieldHistoryTrackingConfig.fieldApiName, '__c'));
         continue;
       }
 
@@ -267,12 +265,7 @@ export class HistoryTracking extends BrowserforcePlugin {
     }
 
     if (activityFieldApiNames.length > 0) {
-      await this.queryCustomFieldsAndPopulateMap(
-        activityFieldApiNames, 
-        'Activity', 
-        '__c', 
-        fieldSelectorByFieldApiName
-      );
+      await this.queryCustomFieldsAndPopulateMap(activityFieldApiNames, 'Activity', '__c', fieldSelectorByFieldApiName);
     }
 
     return fieldSelectorByFieldApiName;
