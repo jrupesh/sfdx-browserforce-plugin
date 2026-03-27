@@ -1,14 +1,13 @@
 import type { SalesforceUrlPath } from '../../browserforce.js';
 import { BrowserforcePlugin } from '../../plugin.js';
 
-const LOGOUT_URL: SalesforceUrlPath =
-  `/secur/logout.jsp?retURL=${encodeURIComponent('/setup/forcecomHomepage.apexp')}` as SalesforceUrlPath;
+const LOGOUT_URL: SalesforceUrlPath = `/secur/logout.jsp` as SalesforceUrlPath;
 
-export type Config = Record<string, never>;
+export type Config = {};
 
 export class LogoutLoginAsUser extends BrowserforcePlugin {
-  public async retrieve(): Promise<undefined> {
-    return undefined;
+  public async retrieve(): Promise<Config> {
+    return {};
   }
 
   public async apply(): Promise<void> {

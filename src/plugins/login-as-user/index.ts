@@ -42,10 +42,14 @@ export class LoginAsUser extends BrowserforcePlugin {
     const orgId = this.browserforce.connection.getAuthInfoFields().orgId;
     const userId = await this.resolveUserId(config.userAliasOrName);
 
-    const urlPath: SalesforceUrlPath = `/servlet/servlet.su?oid=${orgId}&suorgadminid=${userId}&targetURL=${encodeURIComponent(`/lightning/r/${userId}/view`)}`;
+    const urlPath: SalesforceUrlPath = `/servlet/servlet.su?oid=${orgId}&suorgadminid=${userId}&retURL=${encodeURIComponent(`/005?isUserEntityOverride=1&retURL=/home/home.jsp`)}&targetURL=${encodeURIComponent(`/home/home.jsp`)}`;
     await using page = await this.browserforce.openPage(urlPath);
     await Promise.race([
-      page.waitForURL((url) => url.pathname === `/lightning/r/${userId}/view`),
+      page.waitForURL((url) => !url.pathname.startsWith(`/servlet`)),
+      page
+        .locator('span', { hasText: /^Logged in as/ })
+        .first()
+        .waitFor({ state: 'attached' }),
       waitForPageErrors(page),
     ]);
   }

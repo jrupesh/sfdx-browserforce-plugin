@@ -149,7 +149,7 @@ export function maskSensitiveValues(value: unknown, keyPath = '', schema?: unkno
   };
 
   if (value === null || value === undefined) {
-    return value;
+    return {};
   }
 
   // If it's a string and we're in a sensitive field context, mask it

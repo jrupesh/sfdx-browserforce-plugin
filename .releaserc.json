@@ -1,6 +1,6 @@
 {
   "branches": [
-    "main",
+    "internal",
     {
       "name": "next",
       "prerelease": true
