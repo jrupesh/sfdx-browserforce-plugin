@@ -1,12 +1,9 @@
 {
   "name": "sf-browserforce",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "description": "sfdx plugin for browser automation",
   "author": "Rupesh J <j.rupesh@gmail.com>",
   "type": "module",
-  "bin": {
-    "sfdx-browserforce-plugin": "bin/run"
-  },
   "dependencies": {
     "@mdapi-issues/listmetadata-standardvalueset": "3.1.0",
     "@salesforce/sf-plugins-core": "12.2.6",
@@ -52,7 +49,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amtrack/sfdx-browserforce-plugin.git"
+    "url": "git+https://github.com/jrupesh/sfdx-browserforce-plugin.git"
   },
   "scripts": {
     "build": "rm -rf lib && tsc -p . && oclif manifest && oclif readme",
