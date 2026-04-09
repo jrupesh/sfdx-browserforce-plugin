@@ -15,15 +15,12 @@ export type Config = {
 
 export class ScheduledBatches extends BrowserforcePlugin {
   public async retrieve(definition?: Config): Promise<Config | undefined> {
-    if (!definition?.namespace) {
-      return undefined;
-    }
     if (!definition.allJobScheduleNames && (!definition.jobScheduleNames || definition.jobScheduleNames.length === 0)) {
       throw new Error('jobScheduleNames or allJobScheduleNames is required');
     }
 
     await using page = await this.browserforce.openPage(
-      BASE_PATH.replace('{NAMESPACE}', definition.namespace) as SalesforceUrlPath,
+      BASE_PATH.replace('{NAMESPACE}', definition.namespace || '') as SalesforceUrlPath,
     );
     const frameOrPage = await this.browserforce.waitForSelectorInFrameOrPage(
       page,
@@ -35,13 +32,13 @@ export class ScheduledBatches extends BrowserforcePlugin {
     if (definition.allJobScheduleNames) {
       jobScheduleNames = await scheduledBatchesPage.resolveAllJobScheduleNames(
         this.browserforce,
-        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition.namespace),
+        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition.namespace || ''),
       );
     } else {
       jobScheduleNames = await scheduledBatchesPage.resolveJobScheduleNames(
         this.browserforce,
         definition.jobScheduleNames,
-        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition.namespace),
+        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition.namespace || ''),
       );
     }
 
@@ -66,16 +63,12 @@ export class ScheduledBatches extends BrowserforcePlugin {
   }
 
   public async apply(config: Config): Promise<void> {
-    if (!config.namespace) {
-      throw new Error('namespace is required');
-    }
-
     if (!config.allJobScheduleNames && (!config.jobScheduleNames || config.jobScheduleNames.length === 0)) {
       throw new Error('jobScheduleNames is required when allJobScheduleNames is false');
     }
 
     await using page = await this.browserforce.openPage(
-      BASE_PATH.replace('{NAMESPACE}', config.namespace) as SalesforceUrlPath,
+      BASE_PATH.replace('{NAMESPACE}', config.namespace || '') as SalesforceUrlPath,
     );
     const frameOrPage = await this.browserforce.waitForSelectorInFrameOrPage(
       page,
@@ -87,13 +80,13 @@ export class ScheduledBatches extends BrowserforcePlugin {
     if (config.allJobScheduleNames) {
       jobScheduleNames = await scheduledBatchesPage.resolveAllJobScheduleNames(
         this.browserforce,
-        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', config.namespace),
+        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', config.namespace || ''),
       );
     } else {
       jobScheduleNames = await scheduledBatchesPage.resolveJobScheduleNames(
         this.browserforce,
         config.jobScheduleNames,
-        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', config.namespace),
+        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', config.namespace || ''),
       );
     }
 

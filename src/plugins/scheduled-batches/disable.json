@@ -1,6 +1,6 @@
 {
   "$schema": "../schema.json",
   "settings": {
-    "scheduledBatches": {}
+    "allJobScheduleNames": false
   }
 }
