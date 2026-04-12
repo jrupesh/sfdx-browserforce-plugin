@@ -2,10 +2,10 @@
 
 > sf plugin to apply settings in the Salesforce Setup Menu using browser automation
 
-[![Actions Status](https://github.com/amtrack/sfdx-browserforce-plugin/actions/workflows/default.yml/badge.svg?branch=main)](https://github.com/amtrack/sfdx-browserforce-plugin/actions?query=branch:main)
+[![Actions Status](https://github.com/jrupesh/sfdx-browserforce-plugin/actions/workflows/default.yml/badge.svg?branch=main)](https://github.com/jrupesh/sfdx-browserforce-plugin/actions?query=branch:main)
 
 > [!NOTE]
-> Since v6 we're using Playwright instead of Puppeteer. Please see the [release notes](https://github.com/amtrack/sfdx-browserforce-plugin/releases) for migration instructions.
+> Since v6 we're using Playwright instead of Puppeteer. Please see the [release notes](https://github.com/jrupesh/sfdx-browserforce-plugin/releases) for migration instructions.
 
 ✅ Most settings in the Salesforce Setup Menu are represented as [Settings](https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_settings.htm) in the Metadata API.
 
@@ -33,7 +33,7 @@ To change the Currency Locale, the Browserforce config file (here: `./config/cur
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/amtrack/sfdx-browserforce-plugin/main/src/plugins/schema.json",
+  "$schema": "https://raw.githubusercontent.com/jrupesh/sfdx-browserforce-plugin/main/src/plugins/schema.json",
   "settings": {
     "companyInformation": {
       "defaultCurrencyIsoCode": "English (South Africa) - ZAR"
@@ -86,8 +86,8 @@ Top settings:
 
 But there's more:
 
-- Please see the [Browserforce Settings](https://github.com/amtrack/sfdx-browserforce-plugin/wiki/Browserforce-Settings) wiki page with screenshots.
-- Explore the JSON schema powered configuration using a [full-blown example](https://github.dev/amtrack/sfdx-browserforce-plugin/blob/main/examples/full.json) or start with an [empty configuration](https://github.dev/amtrack/sfdx-browserforce-plugin/blob/main/examples/empty.json).
+- Please see the [Browserforce Settings](https://github.com/jrupesh/sfdx-browserforce-plugin/wiki/Browserforce-Settings) wiki page with screenshots.
+- Explore the JSON schema powered configuration using a [full-blown example](https://github.dev/jrupesh/sfdx-browserforce-plugin/blob/main/examples/full.json) or start with an [empty configuration](https://github.dev/jrupesh/sfdx-browserforce-plugin/blob/main/examples/empty.json).
 
 ## Installation
 
@@ -262,4 +262,4 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for getting started.
 
 ## License
 
-MIT © [Matthias Rolke](mailto:mr.amtrack@gmail.com)
+MIT © [Rupesh J](mailto:rupesh.j0701@gmail.com)
