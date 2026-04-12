@@ -1,0 +1,14 @@
+{
+  "settings": {
+    "listViewCustomButtons": [
+      {
+        "objectApiName": "Task",
+        "buttons": ["TestListButton", "TestListButton2"]
+      },
+      {
+        "objectApiName": "Event",
+        "buttons": ["TestListButton", "TestListButton2"]
+      }
+    ]
+  }
+}
