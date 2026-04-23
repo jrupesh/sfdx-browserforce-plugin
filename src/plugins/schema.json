@@ -37,6 +37,9 @@
         "emailDeliverability": {
           "$ref": "./email-deliverability/schema.json"
         },
+        "externalStorageSettings": {
+          "$ref": "./external-storage-settings/schema.json"
+        },
         "lightningExperienceSettings": {
           "$ref": "./lightning-experience-settings/schema.json"
         },

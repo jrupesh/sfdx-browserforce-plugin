@@ -4,6 +4,7 @@ import { CompanyInformation as companyInformation } from './company-information/
 import { CustomerPortal as customerPortal } from './customer-portal/index.js';
 import { DensitySettings as densitySettings } from './density-settings/index.js';
 import { EmailDeliverability as emailDeliverability } from './email-deliverability/index.js';
+import { ExternalStorageSettings as externalStorageSettings } from './external-storage-settings/index.js';
 import { HighVelocitySalesSettings as highVelocitySalesSettings } from './high-velocity-sales-settings/index.js';
 import { HistoryTracking as historyTracking } from './history-tracking/index.js';
 import { HomePageLayouts as homePageLayouts } from './home-page-layouts/index.js';
@@ -34,6 +35,7 @@ export {
   customerPortal,
   densitySettings,
   emailDeliverability,
+  externalStorageSettings,
   highVelocitySalesSettings,
   historyTracking,
   homePageLayouts,
