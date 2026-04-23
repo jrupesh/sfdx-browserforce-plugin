@@ -2,7 +2,7 @@
 
 > sf plugin to apply settings in the Salesforce Setup Menu using browser automation
 
-[![Actions Status](https://github.com/jrupesh/sfdx-browserforce-plugin/actions/workflows/default.yml/badge.svg?branch=main)](https://github.com/jrupesh/sfdx-browserforce-plugin/actions?query=branch:main)
+[![Actions Status](https://github.com/jrupesh/sfdx-browserforce-plugin/actions/workflows/default.yml/badge.svg?branch=internal)](https://github.com/jrupesh/sfdx-browserforce-plugin/actions?query=branch:internal)
 
 > [!NOTE]
 > Since v6 we're using Playwright instead of Puppeteer. Please see the [release notes](https://github.com/jrupesh/sfdx-browserforce-plugin/releases) for migration instructions.
