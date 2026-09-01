@@ -87,6 +87,9 @@
         },
         "scheduledBatches": {
           "$ref": "./scheduled-batches/schema.json"
+        },
+        "providerSearchSettings": {
+          "$ref": "./provider-search-settings/schema.json"
         }
       }
     }

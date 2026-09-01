@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/amtrack/sfdx-browserforce-plugin/src/plugins/provider-search-settings/schema.json",
+  "title": "ProviderSearchSettings",
+  "description": "Generate Data Processing Engine (DPE) definition for Provider Search from Setup when not already active.",
+  "type": "object",
+  "properties": {
+    "generateDPEDefinition": {
+      "title": "Generate DPE Definition",
+      "type": "boolean"
+    },
+    "manualDataSync": {
+      "title": "Manual Data Sync",
+      "description": "After generating the DPE definition, execute the Data Processing Engine action to run a batch job.",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
