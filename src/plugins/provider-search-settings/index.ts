@@ -36,7 +36,9 @@ export class ProviderSearchSettings extends BrowserforcePlugin {
 
     await using page = await this.browserforce.openPage(ProviderSearchSettingsPage.getUrl());
     const providerSearchSettings = new ProviderSearchSettingsPage(page);
-    await providerSearchSettings.generateDpeDefinition(async () => (await this.getProviderSearchDefinition()) !== undefined);
+    await providerSearchSettings.generateDpeDefinition(
+      async () => (await this.getProviderSearchDefinition()) !== undefined,
+    );
 
     if (config.manualDataSync) {
       await this.runDataProcessingEngineDefinition();
