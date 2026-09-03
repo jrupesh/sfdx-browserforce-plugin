@@ -92,6 +92,8 @@ We'll start with `schema.json`.
 
 #### Configuration Schema (`schema.json`)
 
+Upcoming changes
+
 Browserforce leverages [JSON schema](https://json-schema.org/learn/getting-started-step-by-step.html) (`schema.json`) for its configuration.
 
 Example: Given you have defined the property `enabled` in your `schema.json` for your plugin `AdminsCanLogInAsAnyUser`, end users can create a browserforce configuration file looking like this (entry point: `settings -> adminsCanLogInAsAnyUser`).
