@@ -1,0 +1,9 @@
+{
+  "$schema": "../schema.json",
+  "settings": {
+    "providerSearchSettings": {
+      "generateDPEDefinition": true,
+      "manualDataSync": false
+    }
+  }
+}

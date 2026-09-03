@@ -17,6 +17,7 @@ import { OmniChannelSettings as omniChannelSettings } from './omni-channel-setti
 import { OpportunitySplits as opportunitySplits } from './opportunity-splits/index.js';
 import { PermissionSets as permissionSets } from './permission-sets/index.js';
 import { Picklists as picklists } from './picklists/index.js';
+import { ProviderSearchSettings as providerSearchSettings } from './provider-search-settings/index.js';
 import { RecordTypes as recordTypes } from './record-types/index.js';
 import { RelateContactToMultipleAccounts as relateContactToMultipleAccounts } from './relate-contact-to-multiple-accounts/index.js';
 import { ReportsAndDashboards as reportsAndDashboards } from './reports-and-dashboards/index.js';
@@ -48,6 +49,7 @@ export {
   opportunitySplits,
   permissionSets,
   picklists,
+  providerSearchSettings,
   recordTypes,
   relateContactToMultipleAccounts,
   reportsAndDashboards,
