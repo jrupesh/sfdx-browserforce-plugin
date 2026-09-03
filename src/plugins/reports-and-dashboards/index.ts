@@ -30,7 +30,8 @@ export class ReportsAndDashboards extends BrowserforcePlugin {
   ): ReportsAndDashboardsConfig | undefined {
     const response: ReportsAndDashboardsConfig = {};
     const folderSharing = new FolderSharing(this.browserforce).diff(state.folderSharing, definition.folderSharing) as
-      FolderSharingConfig | undefined;
+      | FolderSharingConfig
+      | undefined;
     if (folderSharing !== undefined) {
       response.folderSharing = folderSharing;
     }

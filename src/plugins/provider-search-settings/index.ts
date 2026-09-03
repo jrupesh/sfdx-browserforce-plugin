@@ -1,4 +1,5 @@
 import type { Record as JsforceRecord } from '@jsforce/jsforce-node';
+import { z } from 'zod';
 import { BrowserforcePlugin } from '../../plugin.js';
 import { ProviderSearchSettingsPage } from './pages.js';
 
@@ -15,13 +16,32 @@ interface BatchJobDefinitionRecord extends JsforceRecord {
   Language: string | null;
 }
 
-export type Config = {
-  generateDPEDefinition: boolean;
-  manualDataSync?: boolean;
-};
+export const providerSearchSettingsSchema = z
+  .object({
+    generateDPEDefinition: z
+      .boolean()
+      .meta({
+        title: 'Generate DPE Definition',
+      })
+      .optional(),
+    manualDataSync: z
+      .boolean()
+      .meta({
+        title: 'Manual Data Sync',
+      })
+      .describe('After generating the DPE definition, execute the Data Processing Engine action to run a batch job.')
+      .meta({
+        default: false,
+      })
+      .optional(),
+  })
+  .meta({ id: 'providerSearchSettings', title: 'Provider Search Settings' })
+  .describe('Generate Data Processing Engine (DPE) definition for Provider Search from Setup when not already active.');
+
+export type ProviderSearchSettingsConfig = z.infer<typeof providerSearchSettingsSchema>;
 
 export class ProviderSearchSettings extends BrowserforcePlugin {
-  public async retrieve(definition?: Config): Promise<Config> {
+  public async retrieve(definition?: ProviderSearchSettingsConfig): Promise<ProviderSearchSettingsConfig> {
     return {
       generateDPEDefinition: (await this.getProviderSearchDefinition()) !== undefined,
       // Keep this aligned with requested definition so diff only triggers on true state changes.
@@ -29,7 +49,7 @@ export class ProviderSearchSettings extends BrowserforcePlugin {
     };
   }
 
-  public async apply(config: Config): Promise<void> {
+  public async apply(config: ProviderSearchSettingsConfig): Promise<void> {
     if (!config.generateDPEDefinition) {
       return;
     }

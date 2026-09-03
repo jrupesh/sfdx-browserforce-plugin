@@ -3,7 +3,6 @@ import { type Page } from 'playwright';
 import { waitForPageErrors } from '../browserforce.js';
 
 const POST_LOGIN_PATH = '/setup/forcecomHomepage.apexp';
-const MAINTENANCE_PATH = '/msg/maintenanceandavailable.jsp';
 
 export class LoginPage {
   private page: Page;

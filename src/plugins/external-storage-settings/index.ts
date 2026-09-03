@@ -1,13 +1,31 @@
+import { z } from 'zod';
 import { BrowserforcePlugin } from '../../plugin.js';
 import { ExternalStorageSettingsPage, type ExternalStorageToggle } from './page.js';
 
-export type Config = {
-  enable?: ExternalStorageToggle[];
-  disable?: ExternalStorageToggle[];
-};
+const externalStorageToggleValues = ['AccessFilesInAmazonS3', 'UploadFilesToAmazonS3'] as const;
+const externalStorageToggleSchema = z.enum(externalStorageToggleValues);
+
+export const externalStorageSettingsSchema = z
+  .object({
+    enable: z
+      .array(externalStorageToggleSchema)
+      .meta({
+        title: 'Toggle names to enable',
+      })
+      .optional(),
+    disable: z
+      .array(externalStorageToggleSchema)
+      .meta({
+        title: 'Toggle names to disable',
+      })
+      .optional(),
+  })
+  .meta({ id: 'externalStorageSettings', title: 'External Storage Settings' });
+
+export type ExternalStorageSettingsConfig = z.infer<typeof externalStorageSettingsSchema>;
 
 export class ExternalStorageSettings extends BrowserforcePlugin {
-  public async retrieve(definition?: Config): Promise<Config> {
+  public async retrieve(definition?: ExternalStorageSettingsConfig): Promise<ExternalStorageSettingsConfig> {
     await using page = await this.browserforce.openPage(ExternalStorageSettingsPage.getUrl());
     const externalStorage = new ExternalStorageSettingsPage(page);
 
@@ -24,7 +42,7 @@ export class ExternalStorageSettings extends BrowserforcePlugin {
     };
   }
 
-  public async apply(config: Config): Promise<void> {
+  public async apply(config: ExternalStorageSettingsConfig): Promise<void> {
     await using page = await this.browserforce.openPage(ExternalStorageSettingsPage.getUrl());
     const externalStorage = new ExternalStorageSettingsPage(page);
 
