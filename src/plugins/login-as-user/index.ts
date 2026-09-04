@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { waitForPageErrors, type SalesforceUrlPath } from '../../browserforce.js';
 import { BrowserforcePlugin } from '../../plugin.js';
 
@@ -9,9 +10,21 @@ function isUserId(value: string): boolean {
   return /^005[a-zA-Z0-9]{12,15}$/.test(value);
 }
 
-export type Config = {
-  userAliasOrName: string;
-};
+export const loginAsUserSchema = z
+  .object({
+    userAliasOrName: z
+      .string()
+      .meta({
+        title: 'User Alias or ID',
+      })
+      .describe(
+        'The user alias (Username or Alias field) or the 15/18 character Salesforce User ID (e.g., 005xx0000000123AAA)',
+      ),
+  })
+  .meta({ id: 'loginAsUser', title: 'Login As User' })
+  .describe('Login as another user using the Salesforce Login As (servlet.su) functionality');
+
+export type LoginAsUserConfig = z.infer<typeof loginAsUserSchema>;
 
 export class LoginAsUser extends BrowserforcePlugin {
   private async resolveUserId(userAliasOrName: string): Promise<string> {
@@ -30,11 +43,11 @@ export class LoginAsUser extends BrowserforcePlugin {
     return result.records[0].Id;
   }
 
-  public async retrieve(): Promise<Config> {
+  public async retrieve(): Promise<LoginAsUserConfig> {
     return { userAliasOrName: '' };
   }
 
-  public async apply(config: Config): Promise<void> {
+  public async apply(config: LoginAsUserConfig): Promise<void> {
     if (!config?.userAliasOrName) {
       throw new Error('userAliasOrName is required');
     }

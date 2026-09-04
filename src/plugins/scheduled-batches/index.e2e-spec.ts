@@ -2,7 +2,7 @@ import assert from 'assert';
 import * as child from 'child_process';
 import { fileURLToPath } from 'node:url';
 import * as path from 'path';
-import { type Config, ScheduledBatches } from './index.js';
+import { ScheduledBatches, type ScheduledBatchesConfig } from './index.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -102,7 +102,7 @@ describe(ScheduledBatches.name, function () {
     )) as { records: Array<{ Id: string; Name: string; Enabled__c: boolean }> };
     const selectedName = records.records[0].Name;
 
-    const config: Config = {
+    const config: ScheduledBatchesConfig = {
       namespace,
       jobScheduleNames: [selectedName],
     };

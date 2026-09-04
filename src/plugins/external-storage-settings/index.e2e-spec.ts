@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { Config, ExternalStorageSettings } from './index.js';
+import { ExternalStorageSettings, type ExternalStorageSettingsConfig } from './index.js';
 
 describe(ExternalStorageSettings.name, function () {
   let plugin: ExternalStorageSettings;
@@ -9,15 +9,15 @@ describe(ExternalStorageSettings.name, function () {
     plugin = new ExternalStorageSettings(global.browserforce);
   });
 
-  const configEnableBoth: Config = {
+  const configEnableBoth: ExternalStorageSettingsConfig = {
     enable: ['AccessFilesInAmazonS3', 'UploadFilesToAmazonS3'],
     disable: [],
   };
-  const configEnableUploadOnly: Config = {
+  const configEnableUploadOnly: ExternalStorageSettingsConfig = {
     enable: ['UploadFilesToAmazonS3'],
     disable: [],
   };
-  const configDisableBoth: Config = {
+  const configDisableBoth: ExternalStorageSettingsConfig = {
     enable: [],
     disable: ['UploadFilesToAmazonS3', 'AccessFilesInAmazonS3'],
   };
