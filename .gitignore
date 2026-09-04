@@ -17,5 +17,5 @@ coverage/
 
 # Playwright traces
 trace-*.zip
-test-results/
-.npm/
+test-results/*
+.npm/*
