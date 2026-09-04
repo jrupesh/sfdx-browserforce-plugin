@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { ActivitySettings as activitySettings, activitySettingsSchema } from './activity-settings/index.js';
 import { AuthProviders as authProviders, authProvidersSchema } from './auth-providers/index.js';
 import { CompanyInformation as companyInformation, companyInformationSchema } from './company-information/index.js';
+import { CRMAnalytics as crmAnalytics, crmAnalyticsSchema } from './crm-analytics/index.js';
 import { CustomerPortal as customerPortal, customerPortalSchema } from './customer-portal/index.js';
 import { DensitySettings as densitySettings, densitySettingsSchema } from './density-settings/index.js';
 import { EmailDeliverability as emailDeliverability, emailDeliverabilitySchema } from './email-deliverability/index.js';
@@ -67,6 +68,7 @@ export {
   activitySettings,
   authProviders,
   companyInformation,
+  crmAnalytics,
   customerPortal,
   densitySettings,
   emailDeliverability,
@@ -100,6 +102,7 @@ export const drivers = {
   activitySettings,
   authProviders,
   companyInformation,
+  crmAnalytics,
   customerPortal,
   densitySettings,
   emailDeliverability,
@@ -133,6 +136,7 @@ export const schemas: Record<keyof typeof drivers, z.ZodType> = {
   activitySettings: activitySettingsSchema,
   authProviders: authProvidersSchema,
   companyInformation: companyInformationSchema,
+  crmAnalytics: crmAnalyticsSchema,
   customerPortal: customerPortalSchema,
   densitySettings: densitySettingsSchema,
   emailDeliverability: emailDeliverabilitySchema,

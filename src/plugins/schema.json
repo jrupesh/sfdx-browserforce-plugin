@@ -26,6 +26,13 @@
             }
           ]
         },
+        "crmAnalytics": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/crmAnalytics"
+            }
+          ]
+        },
         "customerPortal": {
           "allOf": [
             {
@@ -279,6 +286,16 @@
       },
       "description": "",
       "title": "Company Information"
+    },
+    "crmAnalytics": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "title": "Enable CRM Analytics"
+        }
+      },
+      "title": "CRMAnalytics Settings"
     },
     "customerPortal": {
       "type": "object",
