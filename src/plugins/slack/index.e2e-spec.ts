@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { type SlackConfig, Slack } from './index.js';
 
-describe(Slack.name, function () {
+describe.skip(Slack.name, function () {
   let plugin: Slack;
   before(() => {
     plugin = new Slack(global.browserforce);

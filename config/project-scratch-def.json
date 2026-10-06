@@ -1,8 +1,8 @@
 {
   "orgName": "Browserforce",
-  "edition": "Developer",
+  "edition": "developer",
   "language": "en_US",
-  "features": ["CPQ", "HighVelocitySales", "PersonAccounts", "ServiceCloud"],
+  "features": ["CPQ", "DevelopmentWave", "HighVelocitySales", "PersonAccounts", "ServiceCloud", "AccountInspection"],
   "settings": {
     "omniChannelSettings": {
       "enableOmniChannel": true,

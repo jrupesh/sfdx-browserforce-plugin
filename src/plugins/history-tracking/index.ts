@@ -54,6 +54,7 @@ const BASE_PATH: SalesforceUrlPath = `/ui/setup/layout/FieldHistoryTracking?pEnt
 const ENABLE_HISTORY_SELECTOR = 'input[type="checkbox"][id="enable"]';
 const ENABLE_FIELD_HISTORY_SELECTOR = 'input[id="{APINAME}_fht"]';
 const SAVE_BUTTON_SELECTOR = 'input[type="submit"][name="save"]';
+const UNSUPPORTED_HISTORY_TRACKING_OBJECTS = new Set(['Task']);
 
 export type HistoryTrackingConfig = z.infer<typeof historyTrackingEntrySchema>;
 
@@ -81,7 +82,10 @@ export class HistoryTracking extends BrowserforcePlugin {
 
       // Retrieve the object history tracking
       // If this is a custom object, this checkbox does not exist, so skip
-      if (!historyTrackingConfig.objectApiName.includes('__c')) {
+      if (
+        !historyTrackingConfig.objectApiName.includes('__c') &&
+        !UNSUPPORTED_HISTORY_TRACKING_OBJECTS.has(historyTrackingConfig.objectApiName)
+      ) {
         historyTrackingResult.enableHistoryTracking = await page.locator(ENABLE_HISTORY_SELECTOR).isChecked();
       }
 
@@ -95,7 +99,11 @@ export class HistoryTracking extends BrowserforcePlugin {
 
       // If the object history tracking is false, then we already know all field history tracking is false
       // Only so long as this is a standard object
-      if (!historyTrackingResult.enableHistoryTracking && !historyTrackingConfig.objectApiName.includes('__c')) {
+      if (
+        !historyTrackingResult.enableHistoryTracking &&
+        !historyTrackingConfig.objectApiName.includes('__c') &&
+        !UNSUPPORTED_HISTORY_TRACKING_OBJECTS.has(historyTrackingConfig.objectApiName)
+      ) {
         for (const fieldHistoryTracking of historyTrackingConfig.fieldHistoryTracking) {
           fieldHistoryTrackingConfigs.push({
             ...fieldHistoryTracking,
@@ -152,7 +160,10 @@ export class HistoryTracking extends BrowserforcePlugin {
 
       // Retrieve the object history tracking
       // If this is a custom object, this checkbox does not exist, so skip
-      if (!historyTrackingConfig.objectApiName.includes('__c')) {
+      if (
+        !historyTrackingConfig.objectApiName.includes('__c') &&
+        !UNSUPPORTED_HISTORY_TRACKING_OBJECTS.has(historyTrackingConfig.objectApiName)
+      ) {
         const historyTrackingEnabled = await page.locator(ENABLE_HISTORY_SELECTOR).isChecked();
 
         if (historyTrackingConfig.enableHistoryTracking !== historyTrackingEnabled) {
@@ -237,6 +248,7 @@ export class HistoryTracking extends BrowserforcePlugin {
 
     const customFieldApiNames = [];
     const personAccountFieldApiNames = [];
+    const activityFieldApiNames = [];
 
     for (const fieldHistoryTrackingConfig of fieldHistoryTrackingConfigs) {
       // If this is a person account field, we must do special handling for this
@@ -244,6 +256,12 @@ export class HistoryTracking extends BrowserforcePlugin {
         personAccountFieldApiNames.push(
           this.parseNamespacedFieldApiName(fieldHistoryTrackingConfig.fieldApiName, '__pc'),
         );
+        continue;
+      }
+
+      // If this is a Task field, we must do special handling for this
+      if (tableEnumOrId === 'Task' && fieldHistoryTrackingConfig.fieldApiName.includes('__c')) {
+        activityFieldApiNames.push(this.parseNamespacedFieldApiName(fieldHistoryTrackingConfig.fieldApiName, '__c'));
         continue;
       }
 
@@ -257,7 +275,11 @@ export class HistoryTracking extends BrowserforcePlugin {
       fieldSelectorByFieldApiName.set(fieldHistoryTrackingConfig.fieldApiName, fieldHistoryTrackingConfig.fieldApiName);
     }
 
-    if (customFieldApiNames.length === 0 && personAccountFieldApiNames.length === 0) {
+    if (
+      customFieldApiNames.length === 0 &&
+      personAccountFieldApiNames.length === 0 &&
+      activityFieldApiNames.length === 0
+    ) {
       return fieldSelectorByFieldApiName;
     }
 
@@ -281,6 +303,10 @@ export class HistoryTracking extends BrowserforcePlugin {
         '__c',
         fieldSelectorByFieldApiName,
       );
+    }
+
+    if (activityFieldApiNames.length > 0) {
+      await this.queryCustomFieldsAndPopulateMap(activityFieldApiNames, 'Activity', '__c', fieldSelectorByFieldApiName);
     }
 
     return fieldSelectorByFieldApiName;

@@ -5,6 +5,13 @@
     "settings": {
       "type": "object",
       "properties": {
+        "accountIntelligenceView": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/accountIntelligenceView"
+            }
+          ]
+        },
         "activitySettings": {
           "allOf": [
             {
@@ -26,6 +33,13 @@
             }
           ]
         },
+        "crmAnalytics": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/crmAnalytics"
+            }
+          ]
+        },
         "customerPortal": {
           "allOf": [
             {
@@ -44,6 +58,13 @@
           "allOf": [
             {
               "$ref": "#/definitions/emailDeliverability"
+            }
+          ]
+        },
+        "externalStorageSettings": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/externalStorageSettings"
             }
           ]
         },
@@ -93,6 +114,22 @@
             }
           ]
         },
+        "loginAsUser": {
+          "description": "Login as another user using the Salesforce Login As (servlet.su) functionality",
+          "allOf": [
+            {
+              "$ref": "#/definitions/loginAsUser"
+            }
+          ]
+        },
+        "logoutLoginAsUser": {
+          "description": "Log out from the current Login As session by opening the logout page",
+          "allOf": [
+            {
+              "$ref": "#/definitions/logoutLoginAsUser"
+            }
+          ]
+        },
         "omniChannelSettings": {
           "allOf": [
             {
@@ -122,6 +159,14 @@
             }
           ]
         },
+        "providerSearchSettings": {
+          "description": "Generate Data Processing Engine (DPE) definition for Provider Search from Setup when not already active.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/providerSearchSettings"
+            }
+          ]
+        },
         "recordTypes": {
           "allOf": [
             {
@@ -140,6 +185,14 @@
           "allOf": [
             {
               "$ref": "#/definitions/reportsAndDashboards"
+            }
+          ]
+        },
+        "scheduledBatches": {
+          "description": "Schedule batch jobs by checking the Scheduled checkboxes on the Batch Job Scheduler Configuration page. When jobScheduleNames is omitted, all checkboxes are checked.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/scheduledBatches"
             }
           ]
         },
@@ -194,6 +247,16 @@
   "title": "Browserforce Configuration",
   "description": "The browserforce config file contains the configuration values that defines browser automation tasks for Salesforce orgs.",
   "definitions": {
+    "accountIntelligenceView": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "title": "Enable Account Intelligence View"
+        }
+      },
+      "title": "Account Intelligence View"
+    },
     "activitySettings": {
       "type": "object",
       "properties": {
@@ -240,6 +303,16 @@
       },
       "description": "",
       "title": "Company Information"
+    },
+    "crmAnalytics": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "title": "Enable CRM Analytics"
+        }
+      },
+      "title": "CRMAnalytics Settings"
     },
     "customerPortal": {
       "type": "object",
@@ -356,6 +429,28 @@
         }
       },
       "title": "Email Deliverability Settings"
+    },
+    "externalStorageSettings": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["AccessFilesInAmazonS3", "UploadFilesToAmazonS3"]
+          },
+          "title": "Toggle names to enable"
+        },
+        "disable": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["AccessFilesInAmazonS3", "UploadFilesToAmazonS3"]
+          },
+          "title": "Toggle names to disable"
+        }
+      },
+      "title": "External Storage Settings"
     },
     "highVelocitySalesSettings": {
       "type": "object",
@@ -485,6 +580,23 @@
         }
       },
       "title": "LinkedIn Sales Navigator Settings"
+    },
+    "loginAsUser": {
+      "type": "object",
+      "properties": {
+        "userAliasOrName": {
+          "type": "string",
+          "title": "User Alias or ID",
+          "description": "The user alias (Username or Alias field) or the 15/18 character Salesforce User ID (e.g., 005xx0000000123AAA)"
+        }
+      },
+      "required": ["userAliasOrName"],
+      "title": "Login As User"
+    },
+    "logoutLoginAsUser": {
+      "type": "object",
+      "properties": {},
+      "title": "Logout Login As User"
     },
     "omniChannelSettings": {
       "type": "object",
@@ -625,6 +737,22 @@
         }
       }
     },
+    "providerSearchSettings": {
+      "type": "object",
+      "properties": {
+        "generateDPEDefinition": {
+          "type": "boolean",
+          "title": "Generate DPE Definition"
+        },
+        "manualDataSync": {
+          "type": "boolean",
+          "title": "Manual Data Sync",
+          "description": "After generating the DPE definition, execute the Data Processing Engine action to run a batch job.",
+          "default": false
+        }
+      },
+      "title": "Provider Search Settings"
+    },
     "recordTypes": {
       "type": "object",
       "properties": {
@@ -688,6 +816,30 @@
         }
       },
       "title": "Folder Sharing"
+    },
+    "scheduledBatches": {
+      "type": "object",
+      "properties": {
+        "jobScheduleNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Job Names",
+          "description": "Optional. List of batch job names to schedule (matches the Job Name column in the table). When omitted, all checkboxes are checked."
+        },
+        "allJobScheduleNames": {
+          "type": "boolean",
+          "title": "All Job Names",
+          "description": "Optional. If true, all batch job names are scheduled. Overrides jobScheduleNames."
+        },
+        "namespace": {
+          "type": "string",
+          "title": "Namespace",
+          "description": "Optional. The namespace of the batch job schedule object. Defaults to 'th_dev'."
+        }
+      },
+      "title": "Scheduled Batches"
     },
     "salesforceCpqConfig": {
       "type": "object",
