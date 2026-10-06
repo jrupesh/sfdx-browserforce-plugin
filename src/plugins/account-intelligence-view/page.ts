@@ -27,10 +27,7 @@ export class AccountIntelligenceViewPage {
     }
 
     await Promise.all([
-      Promise.race([
-        this.page.waitForResponse(SAVE_RESPONSE),
-        waitForPageErrors(this.page),
-      ]),
+      Promise.race([this.page.waitForResponse(SAVE_RESPONSE), waitForPageErrors(this.page)]),
       this.page.locator(TOGGLE).click(),
     ]);
   }
