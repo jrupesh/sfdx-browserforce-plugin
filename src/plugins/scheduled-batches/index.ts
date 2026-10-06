@@ -46,12 +46,15 @@ export type ScheduledBatchesConfig = z.infer<typeof scheduledBatchesSchema>;
 
 export class ScheduledBatches extends BrowserforcePlugin {
   public async retrieve(definition?: ScheduledBatchesConfig): Promise<ScheduledBatchesConfig | undefined> {
-    if (!definition.allJobScheduleNames && (!definition.jobScheduleNames || definition.jobScheduleNames.length === 0)) {
+    if (
+      !definition?.allJobScheduleNames &&
+      (!definition?.jobScheduleNames || definition?.jobScheduleNames.length === 0)
+    ) {
       throw new Error('jobScheduleNames or allJobScheduleNames is required');
     }
 
     await using page = await this.browserforce.openPage(
-      BASE_PATH.replace('{NAMESPACE}', definition.namespace || '') as SalesforceUrlPath,
+      BASE_PATH.replace('{NAMESPACE}', definition?.namespace || '') as SalesforceUrlPath,
     );
     const frameOrPage = await this.browserforce.waitForSelectorInFrameOrPage(
       page,
@@ -60,16 +63,16 @@ export class ScheduledBatches extends BrowserforcePlugin {
 
     const scheduledBatchesPage = new ScheduledBatchesPage(frameOrPage);
     let jobScheduleNames: { name: string; id: string }[] = [];
-    if (definition.allJobScheduleNames) {
+    if (definition?.allJobScheduleNames) {
       jobScheduleNames = await scheduledBatchesPage.resolveAllJobScheduleNames(
         this.browserforce,
-        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition.namespace || ''),
+        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition?.namespace || ''),
       );
     } else {
       jobScheduleNames = await scheduledBatchesPage.resolveJobScheduleNames(
         this.browserforce,
-        definition.jobScheduleNames,
-        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition.namespace || ''),
+        definition?.jobScheduleNames || [],
+        SCHEDULE_OBJECT_API.replace('{NAMESPACE}', definition?.namespace || ''),
       );
     }
 
@@ -116,7 +119,7 @@ export class ScheduledBatches extends BrowserforcePlugin {
     } else {
       jobScheduleNames = await scheduledBatchesPage.resolveJobScheduleNames(
         this.browserforce,
-        config.jobScheduleNames,
+        config.jobScheduleNames || [],
         SCHEDULE_OBJECT_API.replace('{NAMESPACE}', config.namespace || ''),
       );
     }

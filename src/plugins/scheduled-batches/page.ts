@@ -1,4 +1,5 @@
-import { Browserforce, waitForPageErrors } from '../../browserforce.js';
+import { Browserforce } from '../../browserforce.js';
+import { waitForPageErrors } from '../../page-errors.js';
 import { type FrameLocator, type Page } from 'playwright';
 
 const TABLE_SELECTOR = 'table.list, table.slds-vf-data-table';
@@ -24,7 +25,7 @@ export class ScheduledBatchesPage {
 
     await Promise.race([
       this.page.getByText('Success:Batch Job Schedules updated successfully').waitFor(),
-      waitForPageErrors(this.page),
+      waitForPageErrors(this.page as Page),
     ]);
   }
 

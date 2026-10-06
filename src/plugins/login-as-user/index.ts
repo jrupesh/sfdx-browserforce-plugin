@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { waitForPageErrors, type SalesforceUrlPath } from '../../browserforce.js';
+import { type SalesforceUrlPath } from '../../browserforce.js';
+import { waitForPageErrors } from '../../page-errors.js';
 import { BrowserforcePlugin } from '../../plugin.js';
 
 type UserRecord = {
@@ -24,7 +25,7 @@ export const loginAsUserSchema = z
   .meta({ id: 'loginAsUser', title: 'Login As User' })
   .describe('Login as another user using the Salesforce Login As (servlet.su) functionality');
 
-export type LoginAsUserConfig = z.infer<typeof loginAsUserSchema>;
+type LoginAsUserConfig = z.infer<typeof loginAsUserSchema>;
 
 export class LoginAsUser extends BrowserforcePlugin {
   private async resolveUserId(userAliasOrName: string): Promise<string> {

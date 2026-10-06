@@ -1,5 +1,6 @@
 import type { Page } from 'playwright';
-import { type SalesforceUrlPath, waitForPageErrors } from '../../browserforce.js';
+import { type SalesforceUrlPath } from '../../browserforce.js';
+import { waitForPageErrors } from '../../page-errors.js';
 
 const GENERATE_DPE_TAB = 'li[data-tab-value="dpe"] a[data-tab-value="dpe"]';
 const GENERATE_DPE_DEFINITION_BUTTON = 'button[title="Generate DPE Definition"]';
