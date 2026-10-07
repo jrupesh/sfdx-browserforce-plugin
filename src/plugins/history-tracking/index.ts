@@ -1,8 +1,9 @@
 import { z } from 'zod';
-import { type SalesforceUrlPath, waitForPageErrors } from '../../browserforce.js';
+import { type SalesforceUrlPath } from '../../browserforce.js';
+import { waitForPageErrors } from '../../page-errors.js';
 import { BrowserforcePlugin } from '../../plugin.js';
 
-export const fieldHistorySchema = z
+const fieldHistorySchema = z
   .object({
     fieldApiName: z
       .string()
@@ -19,7 +20,7 @@ export const fieldHistorySchema = z
   })
   .meta({ id: 'fieldHistory' });
 
-export const historyTrackingEntrySchema = z
+const historyTrackingEntrySchema = z
   .object({
     objectApiName: z
       .string()
@@ -55,9 +56,9 @@ const ENABLE_FIELD_HISTORY_SELECTOR = 'input[id="{APINAME}_fht"]';
 const SAVE_BUTTON_SELECTOR = 'input[type="submit"][name="save"]';
 const UNSUPPORTED_HISTORY_TRACKING_OBJECTS = new Set(['Task']);
 
-type HistoryTrackingConfig = z.infer<typeof historyTrackingEntrySchema>;
+export type HistoryTrackingConfig = z.infer<typeof historyTrackingEntrySchema>;
 
-export type FieldHistoryTrackingConfig = z.infer<typeof fieldHistorySchema>;
+type FieldHistoryTrackingConfig = z.infer<typeof fieldHistorySchema>;
 
 export class HistoryTracking extends BrowserforcePlugin {
   public async retrieve(definition?: HistoryTrackingConfig[]): Promise<HistoryTrackingConfig[]> {

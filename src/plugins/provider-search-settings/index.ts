@@ -38,7 +38,7 @@ export const providerSearchSettingsSchema = z
   .meta({ id: 'providerSearchSettings', title: 'Provider Search Settings' })
   .describe('Generate Data Processing Engine (DPE) definition for Provider Search from Setup when not already active.');
 
-export type ProviderSearchSettingsConfig = z.infer<typeof providerSearchSettingsSchema>;
+type ProviderSearchSettingsConfig = z.infer<typeof providerSearchSettingsSchema>;
 
 export class ProviderSearchSettings extends BrowserforcePlugin {
   public async retrieve(definition?: ProviderSearchSettingsConfig): Promise<ProviderSearchSettingsConfig> {

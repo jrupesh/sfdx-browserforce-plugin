@@ -68,41 +68,6 @@ import { ServiceChannels as serviceChannels, serviceChannelsSchema } from './ser
 import { Slack as slack, slackSchema } from './slack/index.js';
 import { UserAccessPolicies as userAccessPolicies, userAccessPoliciesSchema } from './user-access-policies/index.js';
 
-export {
-  accountIntelligenceView,
-  activitySettings,
-  authProviders,
-  companyInformation,
-  crmAnalytics,
-  customerPortal,
-  densitySettings,
-  emailDeliverability,
-  externalStorageSettings,
-  highVelocitySalesSettings,
-  historyTracking,
-  homePageLayouts,
-  lightningExperienceSettings,
-  listViewCustomButtons,
-  linkedInSalesNavigatorSettings,
-  loginAsUser,
-  logoutLoginAsUser,
-  omniChannelSettings,
-  opportunitySplits,
-  permissionSets,
-  picklists,
-  providerSearchSettings,
-  recordTypes,
-  relateContactToMultipleAccounts,
-  reportsAndDashboards,
-  scheduledBatches,
-  salesforceCpqConfig,
-  salesforceToSalesforce,
-  security,
-  serviceChannels,
-  slack,
-  userAccessPolicies,
-};
-
 export const drivers = {
   accountIntelligenceView,
   activitySettings,

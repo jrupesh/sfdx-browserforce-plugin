@@ -1,4 +1,5 @@
-import { waitForPageErrors, type SalesforceUrlPath } from '../../browserforce.js';
+import { type SalesforceUrlPath } from '../../browserforce.js';
+import { waitForPageErrors } from '../../page-errors.js';
 import { BrowserforcePlugin } from '../../plugin.js';
 import { z } from 'zod';
 
